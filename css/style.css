@@ -35,11 +35,25 @@
             padding: 0 2rem;
         }
 
-.logo {
-    padding: 5px 0; /* Keeps some vertical spacing for the logo area */
-    display: flex; /* Use flexbox to center image if needed */
-    align-items: center; /* Vertically center the image within the anchor */
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        /* Fallback for text logo */
+        .logo.text-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+        }
 
         .nav-menu {
             display: flex;
