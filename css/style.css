@@ -35,12 +35,11 @@
             padding: 0 2rem;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #ff6b35;
-            text-decoration: none;
-        }
+.logo {
+    padding: 5px 0; /* Keeps some vertical spacing for the logo area */
+    display: flex; /* Use flexbox to center image if needed */
+    align-items: center; /* Vertically center the image within the anchor */
+}
 
         .nav-menu {
             display: flex;
