@@ -1,64 +1,1217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <title>Let's Play</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Play - Supporting Children Through Play & Education</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ff6b35;
+            background: #fff3f0;
+            transform: translateY(-2px);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-top: 80px;
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://via.placeholder.com/1200x600/ff6b35/ffffff?text=Children+Playing') center/cover;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #ff6b35;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mission Section */
+        .mission {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .mission-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* About Page */
+        .about-hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 1.5rem;
+        }
+
+        /* Programs Page */
+        .programs-hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .program-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .program-content {
+            padding: 2rem;
+        }
+
+        /* Timeline Styles */
+        .milestones-hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .timeline-container {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #ff6b35, #f7931e, #ffd23f);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            left: 0;
+            right: 55%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            right: 0;
+            left: 55%;
+        }
+
+        .timeline-content {
+            position: relative;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #ff6b35;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+            z-index: 10;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Modal for Timeline Details */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            margin: 2rem;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ff6b35;
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #f7931e;
+            transform: translateY(-3px);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #ff6b35;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background: #e55a2b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .nav-link {
+                padding: 1rem;
+                margin: 0.5rem 0;
+                display: block;
+                text-align: center;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                left: 70px;
+                right: 0;
+            }
+
+            .timeline-year {
+                left: 30px;
+                width: 60px;
+                height: 60px;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .mission-grid,
+            .team-grid,
+            .program-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 3rem;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <img src="images/logo.png" alt="Let's Play Logo" class="logo">
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Let's Play</a>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                <li><a href="#" class="nav-link" data-page="programs">Programs</a></li>
+                <li><a href="#" class="nav-link" data-page="milestones">Milestones</a></li>
+            </ul>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Every Child Deserves to Play</h1>
+                        <p>Supporting orphaned and underprivileged children through play, education, and community activities. Join us in creating brighter futures, one smile at a time.</p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary">Donate Now</a>
+                            <a href="#" class="btn btn-secondary" data-page="about">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="mission">
+                <div class="container">
+                    <div class="text-center mb-3">
+                        <h2 class="section-title">Our Mission</h2>
+                        <p class="section-subtitle">We believe every child deserves love, care, and the opportunity to grow through play and education.</p>
+                    </div>
+                    <div class="mission-grid">
+                        <div class="mission-card fade-in">
+                            <div class="mission-icon">🎮</div>
+                            <h3>Play & Recreation</h3>
+                            <p>Creating safe spaces where children can play, learn, and develop essential social skills through interactive games and activities.</p>
+                        </div>
+                        <div class="mission-card fade-in">
+                            <div class="mission-icon">📚</div>
+                            <h3>Education Support</h3>
+                            <p>Providing tutoring, mentorship, and educational resources to help children excel academically and discover their potential.</p>
+                        </div>
+                        <div class="mission-card fade-in">
+                            <div class="mission-icon">🤝</div>
+                            <h3>Community Building</h3>
+                            <p>Fostering connections between children, families, and volunteers to create lasting support networks and friendships.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <section class="about-hero">
+                <div class="container">
+                    <h1 class="section-title">About Let's Play</h1>
+                    <p class="section-subtitle" style="color: white;">Founded in 2010, Let's Play has been dedicated to transforming the lives of orphaned and underprivileged children through innovative programs and community support.</p>
+                </div>
+            </section>
+
+            <section style="padding: 4rem 0;">
+                <div class="container">
+                    <div style="max-width: 800px; margin: 0 auto; text-align: center; margin-bottom: 3rem;">
+                        <h2 class="section-title">Our Story</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: #666;">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        </p>
+                    </div>
+
+                    <h3 class="section-title text-center">Meet Our Team</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <img src="https://via.placeholder.com/250x200/4ecdc4/ffffff?text=Sarah+Johnson" alt="Sarah Johnson">
+                            <div class="team-info">
+                                <h4>Sarah Johnson</h4>
+                                <p style="color: #ff6b35; font-weight: 600;">Founder & Director</p>
+                                <p>Passionate about child welfare with 15+ years of experience in non-profit management.</p>
+                            </div>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://via.placeholder.com/250x200/667eea/ffffff?text=Michael+Chen" alt="Michael Chen">
+                            <div class="team-info">
+                                <h4>Michael Chen</h4>
+                                <p style="color: #ff6b35; font-weight: 600;">Program Coordinator</p>
+                                <p>Educational specialist focused on creating engaging learning experiences for children.</p>
+                            </div>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://via.placeholder.com/250x200/f093fb/ffffff?text=Emma+Davis" alt="Emma Davis">
+                            <div class="team-info">
+                                <h4>Emma Davis</h4>
+                                <p style="color: #ff6b35; font-weight: 600;">Community Outreach</p>
+                                <p>Building bridges between communities and creating lasting partnerships for our mission.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 3rem; border-radius: 20px; margin-top: 4rem; text-align: center;">
+                        <h3 class="section-title">Contact Us</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                            <div>
+                                <h4 style="color: #ff6b35; margin-bottom: 0.5rem;">📍 Address</h4>
+                                <p>123 Hope Street<br>Bangalore, Karnataka 560001<br>India</p>
+                            </div>
+                            <div>
+                                <h4 style="color: #ff6b35; margin-bottom: 0.5rem;">📞 Phone</h4>
+                                <p>+91 98765 43210<br>+91 87654 32109</p>
+                            </div>
+                            <div>
+                                <h4 style="color: #ff6b35; margin-bottom: 0.5rem;">✉️ Email</h4>
+                                <p>info@letsplay.org<br>volunteer@letsplay.org</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Programs Page -->
+        <div id="programs" class="page">
+            <section class="programs-hero">
+                <div class="container">
+                    <h1 class="section-title">Our Programs</h1>
+                    <p class="section-subtitle" style="color: white;">Comprehensive programs designed to nurture, educate, and empower children through play and learning.</p>
+                </div>
+            </section>
+
+            <section style="padding: 4rem 0;">
+                <div class="container">
+                    <div class="program-grid">
+                        <div class="program-card">
+                            <div class="program-image" style="background-image: url('https://via.placeholder.com/400x200/ff6b35/ffffff?text=Play+Centers')"></div>
+                            <div class="program-content">
+                                <h3 style="color: #ff6b35; margin-bottom: 1rem;">Community Play Centers</h3>
+                                <p style="margin-bottom: 1.5rem; color: #666;">Safe, supervised play areas where children can engage in structured activities, sports, and creative play. Our centers provide a nurturing environment for social development and fun.</p>
+                                <ul style="margin-bottom: 1.5rem; color: #666;">
+                                    <li>Daily supervised play sessions</li>
+                                    <li>Sports and physical activities</li>
+                                    <li>Creative arts and crafts</li>
+                                    <li>Group games and team building</li>
+                                </ul>
+                                <a href="#" class="btn" style="background: #ff6b35; color: white;">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="program-card">
+                            <div class="program-image" style="background-image: url('https://via.placeholder.com/400x200/4ecdc4/ffffff?text=Mentorship')"></div>
+                            <div class="program-content">
+                                <h3 style="color: #4ecdc4; margin-bottom: 1rem;">Mentorship & Tutoring</h3>
+                                <p style="margin-bottom: 1.5rem; color: #666;">One-on-one mentorship programs pairing children with caring adult volunteers who provide academic support, life guidance, and emotional encouragement.</p>
+                                <ul style="margin-bottom: 1.5rem; color: #666;">
+                                    <li>Personalized tutoring sessions</li>
+                                    <li>Homework assistance</li>
+                                    <li>Career guidance and planning</li>
+                                    <li>Life skills development</li>
+                                </ul>
+                                <a href="#" class="btn" style="background: #4ecdc4; color: white;">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="program-card">
+                            <div class="program-image" style="background-image: url('https://via.placeholder.com/400x200/667eea/ffffff?text=Summer+Camps')"></div>
+                            <div class="program-content">
+                                <h3 style="color: #667eea; margin-bottom: 1rem;">Summer Camps & Events</h3>
+                                <p style="margin-bottom: 1.5rem; color: #666;">Exciting seasonal programs including summer camps, holiday celebrations, and special events that create lasting memories and strengthen community bonds.</p>
+                                <ul style="margin-bottom: 1.5rem; color: #666;">
+                                    <li>Week-long summer adventures</li>
+                                    <li>Holiday celebrations</li>
+                                    <li>Educational field trips</li>
+                                    <li>Cultural and arts festivals</li>
+                                </ul>
+                                <a href="#" class="btn" style="background: #667eea; color: white;">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="program-card">
+                            <div class="program-image" style="background-image: url('https://via.placeholder.com/400x200/f093fb/ffffff?text=Online+Learning')"></div>
+                            <div class="program-content">
+                                <h3 style="color: #f093fb; margin-bottom: 1rem;">Digital Learning Hub</h3>
+                                <p style="margin-bottom: 1.5rem; color: #666;">Modern online learning platform providing access to educational resources, virtual classrooms, and digital literacy programs to bridge the technology gap.</p>
+                                <ul style="margin-bottom: 1.5rem; color: #666;">
+                                    <li>Online tutoring sessions</li>
+                                    <li>Digital literacy training</li>
+                                    <li>Educational games and apps</li>
+                                    <li>Virtual study groups</li>
+                                </ul>
+                                <a href="#" class="btn" style="background: #f093fb; color: white;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Milestones Page -->
+        <div id="milestones" class="page">
+            <section class="milestones-hero">
+                <div class="container">
+                    <h1 class="section-title">Our Journey</h1>
+                    <p class="section-subtitle" style="color: white;">Celebrating the milestones that have shaped our mission and the thousands of lives we've touched along the way.</p>
+                </div>
+            </section>
+
+            <section class="timeline-container">
+                <div class="container">
+                    <div class="timeline" id="timeline">
+                        <!-- Timeline items will be generated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal for Timeline Details -->
+    <div id="timeline-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-body">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
     </div>
-  </header>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="container">
-        <h1>Welcome to Let's Play</h1>
-        <p>Your go-to NGO for bringing play and joy to children everywhere.</p>
-        <a href="#about" class="btn">Learn More</a>
-      </div>
-    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Let's Play</h3>
+                    <p>Empowering children through play, education, and community support since 2010.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">i</a>
+                        <a href="#" class="social-link">y</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;" data-page="home">Home</a></p>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;" data-page="about">About Us</a></p>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;" data-page="programs">Programs</a></p>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;" data-page="milestones">Milestones</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Get Involved</h3>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;">Volunteer</a></p>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;">Donate</a></p>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;">Sponsor a Child</a></p>
+                    <p><a href="#" style="color: #ccc; text-decoration: none;">Corporate Partners</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 123 Hope Street, Bangalore</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@letsplay.org</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #555; padding-top: 2rem; margin-top: 2rem;">
+                <p>&copy; 2024 Let's Play. All rights reserved. Made with ❤️ for children everywhere.</p>
+            </div>
+        </div>
+    </footer>
 
-    <section id="about" class="about">
-      <div class="container">
-        <h2>About Us</h2>
-        <p>Let's Play is dedicated to creating safe, fun, and educational play environments for underprivileged kids. Our mission is to inspire creativity and happiness through play.</p>
-      </div>
-    </section>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">↑</button>
 
-    <section id="contact" class="contact">
-      <div class="container">
-        <h2>Contact Us</h2>
-        <form action="#" method="post">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
+    <script>
+        // Timeline Data
+        const timelineData = [
+            { 
+                year: 2010, 
+                title: "Charity Founded", 
+                description: "Let's Play was born in Bangalore with just 20 children and a dream to make a difference. Our founders Sarah Johnson and Michael Chen started with a simple playground in their neighborhood.",
+                details: "What began as weekend play sessions in a local park has grown into a comprehensive support system for children across the region. Our first volunteers were neighbors and friends who believed in the power of play."
+            },
+            { 
+                year: 2012, 
+                title: "First Learning Center", 
+                description: "Opened our first community center for after-school programs, tutoring, and safe play spaces.",
+                details: "The Learning Center became a beacon of hope, offering homework help, nutritious snacks, and a place where children could just be kids. We served 150 children in our first year of operation."
+            },
+            { 
+                year: 2015, 
+                title: "500+ Children Served", 
+                description: "Reached the incredible milestone of serving over 500 children thanks to our growing volunteer network.",
+                details: "This milestone represented not just numbers, but 500 individual stories of growth, laughter, and dreams coming true. Our volunteer base had grown to over 100 dedicated individuals."
+            },
+            { 
+                year: 2018, 
+                title: "International Day Camp", 
+                description: "Hosted our first international collaboration with a play camp in Nepal, expanding our global reach.",
+                details: "This cross-cultural exchange program allowed children from different countries to connect through play and learning. It marked the beginning of our international outreach efforts."
+            },
+            { 
+                year: 2021, 
+                title: "Online Tutoring Launch", 
+                description: "Adapted to the pandemic by launching comprehensive remote learning and virtual play sessions.",
+                details: "When COVID-19 hit, we quickly pivoted to digital platforms, ensuring no child was left behind. Our online programs reached children in remote areas who had never had access to our services before."
+            },
+            { 
+                year: 2024, 
+                title: "1,000th Child Sponsored", 
+                description: "Celebrated supporting our 1,000th child through our comprehensive sponsorship program.",
+                details: "This milestone represents over a decade of dedication, community support, and the power of collective action. Each sponsored child receives educational support, mentorship, and access to all our programs."
+            }
+        ];
 
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
+        // Navigation functionality
+        function initNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const navMenu = document.querySelector('.nav-menu');
 
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4" required></textarea>
+            // Page switching
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetPage = link.getAttribute('data-page');
+                    
+                    // Update active nav link
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Switch pages
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                        if (page.id === targetPage) {
+                            page.classList.add('active');
+                        }
+                    });
+                    
+                    // Close mobile menu
+                    navMenu.classList.remove('active');
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Initialize timeline if switching to milestones
+                    if (targetPage === 'milestones') {
+                        setTimeout(() => {
+                            initTimeline();
+                            observeTimelineItems();
+                        }, 100);
+                    }
+                });
+            });
 
-          <button type="submit" class="btn">Send Message</button>
-        </form>
-      </div>
-    </section>
-  </main>
+            // Mobile menu toggle
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2025 Let's Play. All rights reserved.</p>
-    </div>
-  </footer>
+            // Footer navigation links
+            const footerLinks = document.querySelectorAll('a[data-page]');
+            footerLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetPage = link.getAttribute('data-page');
+                    
+                    // Find and click the corresponding nav link
+                    const navLink = document.querySelector(`.nav-link[data-page="${targetPage}"]`);
+                    if (navLink) {
+                        navLink.click();
+                    }
+                });
+            });
+        }
+
+        // Timeline functionality
+        function initTimeline() {
+            const timeline = document.getElementById('timeline');
+            if (!timeline) return;
+            
+            timeline.innerHTML = '';
+            
+            timelineData.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.setAttribute('data-index', index);
+                
+                timelineItem.innerHTML = `
+                    <div class="timeline-content" onclick="openModal(${index})">
+                        <h3 class="timeline-title">${item.title}</h3>
+                        <p class="timeline-description">${item.description}</p>
+                    </div>
+                    <div class="timeline-year">${item.year}</div>
+                `;
+                
+                timeline.appendChild(timelineItem);
+            });
+        }
+
+        // Timeline animation on scroll
+        function observeTimelineItems() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, {
+                threshold: 0.3,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+        }
+
+        // Modal functionality
+        function openModal(index) {
+            const modal = document.getElementById('timeline-modal');
+            const modalBody = document.getElementById('modal-body');
+            const item = timelineData[index];
+            
+            modalBody.innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="background: #ff6b35; color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; margin: 0 auto 1rem; box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);">
+                        ${item.year}
+                    </div>
+                    <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.8rem;">${item.title}</h2>
+                    <p style="color: #666; font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">${item.description}</p>
+                    <p style="color: #555; line-height: 1.7;">${item.details}</p>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('timeline-modal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Back to top functionality
+        function initBackToTop() {
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Fade in animation for elements
+        function initFadeInAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Smooth navbar background on scroll
+        function initNavbarScroll() {
+            const navbar = document.querySelector('.navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                    navbar.style.boxShadow = '0 2px 30px rgba(0, 0, 0, 0.15)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            });
+        }
+
+        // Close modal when clicking outside
+        function initModalClose() {
+            const modal = document.getElementById('timeline-modal');
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Initialize all functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+            initBackToTop();
+            initFadeInAnimations();
+            initNavbarScroll();
+            initModalClose();
+            
+            // Initialize timeline if starting on milestones page
+            const currentPage = document.querySelector('.page.active');
+            if (currentPage && currentPage.id === 'milestones') {
+                initTimeline();
+                observeTimelineItems();
+            }
+        });
+
+        // Add some interactive hover effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add hover effect to mission cards
+            const missionCards = document.querySelectorAll('.mission-card');
+            missionCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-15px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(-10px) scale(1)';
+                });
+            });
+            
+            // Add parallax effect to hero section
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * -0.5;
+                    hero.style.transform = `translateY(${rate}px)`;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
+
+            
